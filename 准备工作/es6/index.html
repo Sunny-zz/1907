@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // es6 语法
+
+      // 1. let 和 const 声明变量
+      // a. 没有变量声明提升
+      // b. 不能重复声明同一变量
+      // c. 以语句块作为作用域  语句块的意思就是{}内
+      // d. let 和const 的区别是 const 用来声明常量(声明了就不会变的)
+      // let a = 10
+      // let a = 20
+      // console.log(a)
+      // for (let i = 0; i < 10; i++) {}
+      // console.log(i)
+
+      // const obj = {
+      //   name: "xx",
+      //   age: 2
+      // }
+      // obj.age = 4
+      // const a = 10
+      // a = 20
+
+      // 2.变量的解构赋值
+      // let obj = {
+      //   username: "lily",
+      //   userage: 18
+      // }
+      // const username = obj.username
+      // const userage = obj.userage
+      // a.对象的解构赋值
+      // const { userage, username } = obj
+      // console.log(username, userage)
+      // b.数组的解构赋值
+      // const [a, c] = [1, 2, 3]
+      // console.log(a, c)
+      // c. 字符串的解构赋值
+      // const [a, b, c, d, e] = 'hello';
+      // d. 函数参数的解构赋值
+      // function add([x, y]) {
+      //   return x + y
+      // }
+      // add([1, 2])
+      // let obj = {
+      //   username: "lily",
+      //   userage: 18
+      // }
+
+      // function fun({ username }) {
+      //   console.log(username)
+      // }
+      // fun(obj)
+
+      // let x = 10
+      // let y = 20
+      // ;[y, x] = [x, y]
+      // console.log(x, y)
+
+      // 3. 模板字符串
+      // const username = "lucy"
+      // const str = `my name is ${username},i like music!`
+      // console.log(str)
+
+      // 4.箭头函数
+      // function fun(a, b) {
+      //   return a + b
+      // }
+      // a.箭头函数都是变量式声明 (取消了 function)
+      // b.箭头函数语法 (函数的参数) =>  {函数做的事} 假如函数内做一些事之后要返回某个值需要在{}内写 return ,假如函数内不需要执行任何操作直接返回，那么{}可以省略 箭头后直接写返回的内容 ，函数的参数如果是一个的话可以省略箭头前面的小括号
+      // c.箭头函数不能当做构造函数
+      // d.箭头函数内的 this 指向不是找调用该函数的对象，而是箭头函数声明时就绑定好了
+      // f.无 arguments 关键字但是有剩余参数
+      // const fun = (a, b) => a + b
+      // const c = fun(10, 20)
+      // console.log(c)
+      // const fun2 = a => {
+      //   const res = a * a * a
+      //   return res
+      // }
+      // const obj = {
+      //   username: "jhon",
+      //   userage: 18,
+      //   say: () => {
+      //     console.log(this.userage)
+      //   }
+      // }
+      // obj.say()
+
+      // 5.对象的简写
+      // const username = "小梅"
+      // const userage = 20
+      // const obj = {
+      //   username,
+      //   userage,
+      //   say() {
+      //     console.log(this.username)
+      //   }
+      // }
+      // console.log(obj)
+
+      // 6.函数的剩余参数 ,函数参数的默认值
+      // function fun() {
+      //   // 普通函数内 有个关键字  arguments 指的是函数的实参集合
+      //   console.log(arguments)
+      //   let res = 0
+      //   for (let i = 0; i < arguments.length; i++) {
+      //     res = res + arguments[i]
+      //   }
+      //   return res
+      // }
+      // const num = fun(1, 2, 5, 6)
+      // console.log(num)
+
+      // 创建一个函数实现如下功能    fun(1,2,3)  ==> 6  fun(1,2,3,4,5,6) ==> 21
+      // const fun = (a, ...rest) => {
+      //   console.log(rest)
+      // }
+      // fun(1, 2, 3, 4, 5, 6)
+
+      const fun = (color = "red") => {
+        console.log(color)
+      }
+      fun("blue")
+    </script>
+  </body>
+</html>
