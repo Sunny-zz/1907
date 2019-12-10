@@ -125,10 +125,85 @@
       // }
       // fun(1, 2, 3, 4, 5, 6)
 
-      const fun = (color = "red") => {
-        console.log(color)
+      // const fun = (color = "red") => {
+      //   console.log(color)
+      // }
+      // fun("blue")
+
+      // 7.扩展运算符  ...   一般用来合并对象(数组 自定义对象)  还可以做对象的拷贝(跟原来对象的地址不同)
+      // const arr1 = [1, 2, 3]
+      // const arr2 = [4, 5, 6]
+      // const arr3 = arr1.concat(arr2)
+      // console.log(arr1, arr2)
+      // console.log(arr3)
+      // const arr3 = [...arr1, ...arr2]
+      // console.log(arr3, arr1, arr2)
+
+      // const arr = [1, 2, 3, 4, 5, 6]
+      // const newArr = arr.map(ele => ele)
+      // const newArr = arr.slice(0)
+      // newArr.push(7)
+      // console.log(newArr, arr)
+      // const newArr = [...arr]
+      // newArr.push(7)
+      // console.log(newArr, arr)
+      // const obj = {
+      //   name: "xx",
+      //   age: 10
+      // }
+      // for in 语句遍历对象
+      // Object.assign()  合并对象
+
+      // const newObj = { ...obj }
+      // newObj.age = 6
+      // console.log(newObj, obj)
+      // const obj1 = {
+      //   hobby: "打游戏",
+      //   age: 12
+      // }
+      // const newObj = { ...obj1, ...obj }
+      // console.log(newObj)
+
+      // class 类 (和之前的构造函数加原型一样)
+      // function People(name, age) {
+      //   this.name = name
+      //   this.age = age
+      // }
+      // People.prototype.say = function() {
+      //   console.log("hello")
+      // }
+      // const xp = new People("小潘", 24)
+      // console.log(xp)
+
+      class People {
+        // 类里面只允许写方法 而且方法之间不能加符号
+        // 类里面默认必须有 constructor 函数 该函数的作用和原来的构造函数一样(给对象添加私有的属性)
+        // 除了 constructor 方法之外的方法都是属于 prototype 内的方法
+        constructor(name, age) {
+          this.name = name
+          this.age = age
+        }
+        say() {
+          console.log("hello")
+        }
       }
-      fun("blue")
+      // People 传参其实是传递给了 class 内的 constructor 方法
+      const lily = new People("lily", 18)
+      console.log(lily)
+      // 类的继承
+      class Girl extends People {
+        constructor(name, age) {
+          super(name, age)
+          this.look = "beautiful"
+        }
+        sing() {
+          console.log("我是一个小苹果")
+        }
+      }
+      const lucy = new Girl("lucy", 16)
+      console.log(lucy)
+
+      // node 模块
     </script>
   </body>
 </html>
