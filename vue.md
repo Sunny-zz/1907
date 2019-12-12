@@ -112,8 +112,21 @@ SPA 是 Single Page App 的缩写。意思是“单页面应用”。整个网�
   ```
 
 - 在组件的 template 内给某个元素使用 v-on: 指令绑定事件, 该指令可以简写成@
+
   ```html
   <button v-on:click="handleClick">-</button>
+  ```
+
+- 有些时候需要给事件传递参数 写法如下
+
+  ```html
+  <li @click="btnClick(0)"></li>
+  ```
+
+  ```js
+  btnClick(ind) {
+        this.activeIndex = ind
+      }
   ```
 
 ##### vue 的条件渲染
@@ -174,3 +187,9 @@ data() {
 ```
 
 `item in numArr` 里面的 item 指的是数据内的元素，当 v-for 时必须加上 key 属性，而且属性值必须唯一(一般等于数据的 id)。但是当你想用数组内对应的索引值时需要把 v-for 写成 `(item,index) in numArr`。 item 和 index 名称可以随意设置，顺序不能变。
+
+##### data(状态) 的修改
+
+我们已经将 data 定义好并且在页面中使用了。那么页面的变化只需要修改 data 即可。页面会自动检测 data 的更新，从而更新页面。一般我们修改 data 都是在事件内。事件都声明在 methods 对象下。使用 this.数据名 获取并修改。
+
+##### vue 表单输入绑定
