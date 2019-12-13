@@ -18,6 +18,7 @@
     </div>
     <div v-if="ready">页面准备好了之后的图片</div>
     <div v-else>请稍等的 gif 图</div>
+    <div class="box"></div>
     <br />
     <br />
     <br />
@@ -72,5 +73,10 @@ export default {
   text-align: center;
   line-height: 16px;
   background-color: #ccc;
+}
+.box {
+  width: 590px;
+  height: 470px;
+  background-image: url("./assets/6.jpg");
 }
 </style>
