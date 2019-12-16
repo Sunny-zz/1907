@@ -4,7 +4,6 @@
     <Main />
     <Footer />
   </div>
-
 </template>
 
 <script>
