@@ -225,3 +225,28 @@ vue 表单实现的是 双向绑定。使用 v-model 指令即可。
 - 父子组件之间的交互使用 prop 或者 自定义事件
 - 兄弟组件之间将数据共享到父组件，然后使用上面的交互方式
 - 任意组件之间的交互可以使用 vuex
+
+##### vue 的计算属性 computed
+
+当你需要将 data 类的数据进行复杂的运算或操作之后得出来的结果到页面中展示的话，不提倡直接将计算过程写到页面里，而是使用 computed 计算属性去计算。页面中直接使用计算属性。用法在组件的导出对象内写一个 computed 属性，该属性的属性值是一个对象，该对象下只能定义方法，并且该方法必须返回一个值。这个值就是计算属性的结果。页面上可以直接使用。
+例如 计算总价
+在 script 中
+
+```js
+computed: {
+    total() {
+      return this.productInCartList.reduce(
+        (res, item) => (res += item.price * item.count),
+        0
+      )
+    }
+  }
+```
+
+在 template 中
+
+```html
+<span>
+  总价￥{{ total }}
+</span>
+```
