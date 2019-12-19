@@ -7,6 +7,7 @@
       @add="add"
       @sub="sub"
       @del="del"
+      @changeAllCheck="changeAllCheck"
     />
   </div>
 </template>
@@ -52,6 +53,12 @@ export default {
       this.productInCartList = this.productInCartList.filter(
         item => item.id !== id
       )
+    },
+    changeAllCheck(state) {
+      this.productInCartList = this.productInCartList.map(item => {
+        item.checked = state
+        return item
+      })
     }
   }
 }

@@ -1,5 +1,6 @@
 <template>
   <div v-if="productInCartList.length" class="shopping-cart">
+    <input :checked="allChecked" type="checkbox" @change="handleAllCheck" />全选
     <div
       class="item-product"
       :style="{ backgroundColor: item.checked ? '#fff4e8' : '#fff' }"
@@ -24,6 +25,7 @@
       <span>￥{{ (item.count * item.price).toFixed(2) }}</span>
       <button @click="$emit('del', item.id)" class="del">删除</button>
     </div>
+    <input :checked="allChecked" type="checkbox" @change="handleAllCheck" />全选
     <div>
       总价
       <span>
@@ -50,6 +52,15 @@ export default {
           }
         }, 0)
         .toFixed(2)
+    },
+    // 默认计算属性不能直接被修改除非设置计算属性的 setter
+    allChecked() {
+      return this.productInCartList.every(item => item.checked)
+    }
+  },
+  methods: {
+    handleAllCheck(event) {
+      this.$emit("changeAllCheck", event.target.checked)
     }
   }
 }
