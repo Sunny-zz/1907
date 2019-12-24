@@ -1,17 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
+  <body>
+    <h1>AJAX</h1>
+    <div class="posts"></div>
+    <div class="comments-list">
+      <input class="comment" type="text" />
+      <button class="btn">提交</button>
+      <ul class="comments"></ul>
+    </div>
+    <script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"></script>
 
-<body>
-  <script>
-    // ajax    Asynchronous JavaScript and XML  异步的js和XML    ajaj    异步的js和JSON
-  </script>
-</body>
+    <script src="./jquery-3.4.1.min.js"></script>
+    <script>
+      // 前端发请求一般是自己的页面在服务器上，数据在服务器上
+      // 浏览有一个同源策略不允许跨域资源共享 CORS
+      // 跨域 不同的域名 不同的端口号 不同的协议
+      // 我们一下做的请求其实就是跨域请求，因为谷歌浏览器默认支持本地(localhost)请求跨域
+      // ajax    Asynchronous JavaScript and XML  异步的js和XML    ajaj    异步的js和JSON
+      // 自己搭建一个简单服务器，并且设置一些数据。
+      // npm i -g json-server
+      // 在 json 数据文件夹内执行 json-server --watch data.json -p 3008
+      // 1. 原生的 ajax
+      // a. 创建 XHR 对象 XMLHttpRequest
+      // const xhr = new XMLHttpRequest()
+      // // b. 使用创建好的 xhr 对象的 open 方法创建一个请求
+      // // 请求的类型(GET POST DELETE PUT PATCH ...)  地址  同步还是异步
+      // xhr.open("GET", "http://localhost:3008/posts")
+      // // c. 把创建好的请求使用 xhr 的 send 方法发送出去
+      // // send 方法可以向后台传递数据数据直接当成方法的参数 而且参数必须是字符串
+      // xhr.send()
+      // // d. 使用 xhr 的 onreadystatechange 方法监听请求的整个过程
+      // // 请求的整个过程分若干个状态(readyState)   0 1 2 3 4  一般来说 4 状态：请求已完成，且响应已就绪
+      // // 请求还有一个状态码  status  200 代表成功
+      // // e. 请求成功之后使用 responseText 获取响应
+      // xhr.onreadystatechange = function() {
+      //   if (xhr.readyState == 4 && xhr.status == 200) {
+      //     // 由于后台的数据是json 形式 所以响应就是 json 形式
+      //     // 要将 json 形式的数据转化成正常 js 数据。
+      //     // JSON.parse(json 串) 把 json 串解析成 对象
+      //     // JSON.stringfy(对象) 把对象转化成 json 串
+      //     const posts = JSON.parse(xhr.responseText)
+      //     posts.forEach(element => {
+      //       const listItem = $("<div>").text(element.title)
+      //       $(".posts").append(listItem)
+      //     })
+      //   }
+      // }
 
+      // const xhr = new XMLHttpRequest()
+      // xhr.open("GET", "http://localhost:3008/comments")
+
+      // xhr.send()
+      // xhr.onreadystatechange = function() {
+      //   if (xhr.readyState == 4) {
+      //     JSON.parse(xhr.responseText).forEach(element => {
+      //       const listItem = $("<li>").text(element.text)
+      //       $(".comments").append(listItem)
+      //     })
+      //   }
+      // }
+      // $(".btn").click(function() {
+      //   const txt = $(".comment").val()
+      //   const xhr = new XMLHttpRequest()
+      //   xhr.open("POST", "http://localhost:3008/comments")
+      //   // 就需要把数据传递给后台 传递这样的 {text: 输入的评论}   因为后台这样的 id并不需要传递  {id: 'xxx', text:'xxxx'}
+      //   const obj = { text: txt }
+      //   // 当你想要向后台传递 json 字符串的话必须先设置请求头
+      //   xhr.setRequestHeader("Content-type", "application/json")
+      //   xhr.send(JSON.stringify(obj))
+      //   xhr.onreadystatechange = function() {
+      //     if (xhr.readyState == 4) {
+      //       const listItem = $("<li>").text(JSON.parse(xhr.responseText).text)
+      //       $(".comments").append(listItem)
+      //       $(".comment").val("")
+      //     }
+      //   }
+      // })
+      // 添加评论的过程 1.首先发送请求更新后台数据 2. 根据后台反馈回来的数据更新自己的页面(并不是刷新页面) 3. 当你再次进入页面时之前的所有评论依然在
+
+      // 2. jquery 的 ajax
+      // a. $.ajax({option})   参数必须  type  url  data  success  error  contentType    crossDomain  dataType  headers
+      // b. $.get(url,function(res){})
+      // c. $.post(url,data,function(res){})
+      // const myAjax = function(option) {
+      //   const xhr = new XMLHttpRequest()
+      //   xhr.open(option.type, option.url)
+      //   xhr.send()
+      //   xhr.onreadystatechange = function() {
+      //     if (xhr.readyState == 4) {
+      //       option.success(JSON.parse(xhr.responseText))
+      //     }
+      //   }
+      // }
+      // $.ajax({
+      //   type: "GET",
+      //   url: "http://localhost:3008/comments",
+      //   success: function(res) {
+      //     res.forEach(element => {
+      //       const listItem = $("<li>").text(element.text)
+      //       $(".comments").append(listItem)
+      //     })
+      //   },
+      //   error: function(err) {
+      //     console.log(err)
+      //   }
+      // })
+      // myAjax({
+      //   type: "GET",
+      //   url: "http://localhost:3008/comments",
+      //   success: function(res) {
+      //     res.forEach(element => {
+      //       const listItem = $("<li>").text(element.text)
+      //       $(".comments").append(listItem)
+      //     })
+      //   }
+      // })
+
+      // $(".btn").click(function() {
+      //   const txt = $(".comment").val()
+      //   $.ajax({
+      //     type: "POST",
+      //     url: "http://localhost:3008/comments",
+      //     data: { text: txt },
+      //     success: function(res) {
+      //       const listItem = $("<li>").text(res.text)
+      //       $(".comments").append(listItem)
+      //       $(".comment").val("")
+      //     },
+      //     error: function(err) {
+      //       console.log(err)
+      //     }
+      //   })
+      // })
+
+      // 3. axios 封装的 ajax
+      // axios 底层是由 promise 封装的
+      // axios.get("http://localhost:3008/comments").then(function(res) {
+      //   res.data.forEach(element => {
+      //     const listItem = $("<li>").text(element.text)
+      //     $(".comments").append(listItem)
+      //   })
+      // })
+
+      // $(".btn").click(function() {
+      //   const txt = $(".comment").val()
+      //   axios
+      //     .post("http://localhost:3008/comments", { text: txt })
+      //     .then(res => {
+      //       console.log(res)
+      //       const listItem = $("<li>").text(res.data.text)
+      //       $(".comments").append(listItem)
+      //       $(".comment").val("")
+      //     })
+      // })
+
+      // const obj = {
+      //   name: "小花",
+      //   say: function() {
+      //     console.log(1)
+      //     return {
+      //       xx: function() {
+      //         console.log(2)
+      //       }
+      //     }
+      //   }
+      // }
+      // obj.say().xx()
+
+      // promise  异步解决方案 (异步回调)
+      // resolve  reject 分别是两个函数第一个代表异步成功的函数，第二个代表异步失败的函数
+      // const promise = new Promise(function(resolve, reject) {
+      //   const xhr = new XMLHttpRequest()
+      //   xhr.open("GET", "http://localhost:3008/comments")
+      //   xhr.send()
+      //   xhr.onreadystatechange = function() {
+      //     if (xhr.readyState == 4) {
+      //       resolve(xhr.responseText)
+      //     }
+      //   }
+      // })
+      // promise.then(函数)  里面的函数其实就是 resolve
+      // promise.catch(函数)  里面的函数其实就是 reject
+      // promise.then(res => {
+      //   console.log(res)
+      // })
+      // 一个函数使用 async 关键字声明了 那么这个函数内部可以使用 await 关键字
+      // await 的作用是将异步操作变成同步的
+      async function get() {
+        const res = await axios.get("http://localhost:3008/comments")
+        console.log(res.data)
+      }
+      get()
+    </script>
+  </body>
 </html>

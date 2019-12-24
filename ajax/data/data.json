@@ -1,0 +1,22 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "Vue 基础"
+    },
+    {
+      "id": "2",
+      "title": "React 基础"
+    }
+  ],
+  "comments": [
+    {
+      "id": "11",
+      "text": "Vue 666"
+    },
+    {
+      "id": "22",
+      "text": "React 666"
+    }
+  ]
+}
