@@ -250,3 +250,5 @@ computed: {
   总价￥{{ total }}
 </span>
 ```
+
+当你没有通过计算属性的计算方式修改了 computed，默认是不允许的。必须得设置 set。如何设置。将 computed 写成对象形式，对象下有两个方法，一个是 get ，一个是 set。get 和之前的计算属性一模一样。set 方法默认接收新修改的 computed ，函数内根据新的 computed，去修改跟计算属性相关的 data。 

@@ -1,6 +1,6 @@
 <template>
   <div v-if="productInCartList.length" class="shopping-cart">
-    <input :checked="allChecked" type="checkbox" @change="handleAllCheck" />全选
+    <input v-model="allChecked" type="checkbox" />全选
     <div
       class="item-product"
       :style="{ backgroundColor: item.checked ? '#fff4e8' : '#fff' }"
@@ -25,7 +25,7 @@
       <span>￥{{ (item.count * item.price).toFixed(2) }}</span>
       <button @click="$emit('del', item.id)" class="del">删除</button>
     </div>
-    <input :checked="allChecked" type="checkbox" @change="handleAllCheck" />全选
+    <input v-model="allChecked" type="checkbox" />全选
     <div>
       总价
       <span>
@@ -54,8 +54,16 @@ export default {
         .toFixed(2)
     },
     // 默认计算属性不能直接被修改除非设置计算属性的 setter
-    allChecked() {
-      return this.productInCartList.every(item => item.checked)
+    allChecked: {
+      get() {
+        return this.productInCartList.every(item => item.checked)
+      },
+      //当你的 allChecked 计算属性发生变化时,这个变化并不是由 this.productInCartList 引起的，就会触发 set 函数。
+      //  newValue 就是被修改之后的新的计算属性的值
+      //  当将计算属性设置成 v-model 时,点击全选按钮时就没有修改 this.productInCartList 而是直接修改了 allChecked 计算属性，所以导致 set 触发。而 newValue 获取到的就是新的 allChecked 的值。然后通过父组件传递过来的方法直接修改  this.productInCartList
+      set(newValue) {
+        this.$emit("changeAllCheck", newValue)
+      }
     }
   },
   methods: {
