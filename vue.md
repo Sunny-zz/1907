@@ -251,4 +251,27 @@ computed: {
 </span>
 ```
 
-当你没有通过计算属性的计算方式修改了 computed，默认是不允许的。必须得设置 set。如何设置。将 computed 写成对象形式，对象下有两个方法，一个是 get ，一个是 set。get 和之前的计算属性一模一样。set 方法默认接收新修改的 computed ，函数内根据新的 computed，去修改跟计算属性相关的 data。 
+当你没有通过计算属性的计算方式修改了 computed，默认是不允许的。必须得设置 set。如何设置。将 computed 写成对象形式，对象下有两个方法，一个是 get ，一个是 set。get 和之前的计算属性一模一样。set 方法默认接收新修改的 computed ，函数内根据新的 computed，去修改跟计算属性相关的 data。
+
+##### vue 组件的生命周期
+
+- 初始化(首次渲染)
+  - beforeCreate
+  - created
+  - beforeMount
+  - mounted
+- 组件数据更新
+  - beforeUpdate
+  - updated
+- 组件销毁
+  - beforeDestroy
+  - destroyed
+
+**重点是 created 以及 mounted**
+
+##### 在 vue 项目使用第三方模块(插件)
+
+- 在组件内直接引入然后直接使用 比如 axios
+- 很多组件都需要使用，那么定义成全局的。使用 Vue.use() 方法
+
+**一般来说只有插件名称带有 `vue-` 的才能做成全局的**
