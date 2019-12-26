@@ -1,6 +1,13 @@
 <template>
   <div class="article-list">
-    <div v-if="articleList.length">
+    <div class="list-tabs">
+      <router-link to="/frontend">前端</router-link>
+      <router-link to="/backend">后端</router-link>
+      <router-link to="/ui">设计</router-link>
+    </div>
+    <!-- 在父路由内写  router-view 作用是： 在父路由组件展示子路由组件 -->
+    <router-view></router-view>
+    <!-- <div v-if="articleList.length">
       <div class="article" v-for="article in articleList" :key="article.id">
         <p>
           <span class="author">作者·{{ article.author }}</span>
@@ -16,7 +23,7 @@
     </div>
     <div v-else>
       <img src="../assets/timg.gif" alt="" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -32,7 +39,7 @@ export default {
   },
   created() {
     // 发送 axios 请求获取后台数据更新组件的 data
-    window.console.log(this)
+    // window.console.log(this)
     this.axios.get("http://localhost:3008/articles").then(res => {
       // window.console.log(res)
       this.articleList = res.data
@@ -72,6 +79,15 @@ export default {
   margin: 20px auto;
   background-color: #fff;
   height: 600px;
+}
+.article-list .list-tabs {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid #000;
+}
+.article-list .list-tabs a {
+  margin-right: 20px;
+  color: #000;
 }
 .article-list img {
   width: 100%;

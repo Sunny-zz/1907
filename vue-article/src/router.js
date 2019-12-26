@@ -4,6 +4,8 @@ import ArticleList from "./components/ArticleList.vue"
 import Pins from "./components/Pins.vue"
 import Topics from "./components/Topics.vue"
 import Article from "./components/Article.vue"
+import List from "./components/List.vue"
+import Error from "./components/Error.vue"
 Vue.use(VueRouter)
 
 // 创建 vue 路由
@@ -14,7 +16,28 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: "/",
-    component: ArticleList
+    component: ArticleList,
+    // 路由嵌套
+    // 注意子路由地址一般不加 /
+    children: [
+      {
+        // 父路由出现是默认展示
+        path: "",
+        component: List
+      },
+      {
+        path: "frontend",
+        component: List
+      },
+      {
+        path: "backend",
+        component: List
+      },
+      {
+        path: "ui",
+        component: List
+      }
+    ]
   },
   {
     path: "/pins",
@@ -30,6 +53,10 @@ const routes = [
     // 动态路径参数 以冒号开头
     path: "/article/:id",
     component: Article
+  },
+  {
+    path: "/*",
+    component: Error
   }
 ]
 

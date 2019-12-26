@@ -5,6 +5,8 @@
         src="https://b-gold-cdn.xitu.io/v3/static/img/logo.a7995ad.svg"
         alt=""
         class="logo"
+        style="cursor: pointer;"
+        @click="jump"
       />
       <div class="tabs">
         <router-link active-class="active" exact tag="span" to="/"
@@ -23,7 +25,25 @@
 
 <script>
 export default {
-  name: "top"
+  name: "top",
+  methods: {
+    jump() {
+      // 模拟登陆或注册等按钮跳转页面
+      window.console.log("一系列操作")
+      const a = false
+      if (a) {
+        // 跳转页面
+        this.$router.push("/")
+        // push
+        // back
+        // go
+        // forward
+      } else {
+        // 不跳转提示用户某些信息
+        window.console.log("某些信息")
+      }
+    }
+  }
 }
 </script>
 
