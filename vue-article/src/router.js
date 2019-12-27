@@ -52,7 +52,8 @@ const routes = [
     // 所以路由 path 需要写成动态路由形式 需要设置 动态路径参数
     // 动态路径参数 以冒号开头
     path: "/article/:id",
-    component: Article
+    component: Article,
+    name: "article"
   },
   {
     path: "/*",

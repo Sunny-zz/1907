@@ -9,7 +9,13 @@
         @click="jump"
       />
       <div class="tabs">
-        <router-link active-class="active" exact tag="span" to="/"
+        <router-link
+          active-class="active"
+          :exact="
+            $route.path === '/pins' || $route.path === '/topics' ? true : false
+          "
+          tag="span"
+          to="/"
           >首页</router-link
         >
         <router-link active-class="active" tag="span" to="/pins"

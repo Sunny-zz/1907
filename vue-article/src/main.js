@@ -6,6 +6,7 @@ import "./assets/global.css"
 import "./plugins/moment.js"
 import "./plugins/axios"
 import router from "./router"
+import './plugins/element.js'
 // 在vue全局的全局下可以使用 这个插件
 
 Vue.config.productionTip = false
