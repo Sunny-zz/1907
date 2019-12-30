@@ -51,9 +51,11 @@ export default {
 <style>
 .article-list {
   width: 70%;
+  display: flex;
+  flex-direction: column;
   margin: 20px auto;
   background-color: #fff;
-  height: 600px;
+  height: 240px;
 }
 .article-list .list-tabs {
   display: flex;

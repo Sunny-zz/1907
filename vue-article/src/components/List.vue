@@ -1,28 +1,49 @@
 <template>
-  <div v-if="articleList.length">
-    <div class="article" v-for="article in articleList" :key="article.id">
-      <p>
-        <span class="author">作者·{{ article.author }}</span>
-        <span>发布于·{{ article.createTime | moment("from", "now") }}</span>
-      </p>
-      <router-link
-        style="cursor:pointer;"
-        tag="h2"
-        :to="{
-          path: `/article/${article.id}`,
-          query: {
-            type:
-              $route.path === '/'
-                ? 'frontendlist'
-                : $route.path.replace('/', '') + 'list'
-          }
-        }"
-        >{{ article.title }}</router-link
+  <div v-if="articleList.length" class="wrap">
+    <div class="infinite-list-wrapper" style="overflow:auto">
+      <div
+        v-infinite-scroll="load"
+        infinite-scroll-disabled="disabled"
+        :infinite-scroll-distance="5"
+        class="list"
       >
+        <div class="article" v-for="article in articleList" :key="article.id">
+          <p>
+            <span class="author">作者·{{ article.author }}</span>
+            <span>发布于·{{ article.createTime | moment("from", "now") }}</span>
+          </p>
+          <router-link
+            style="cursor:pointer;"
+            tag="h2"
+            :to="{
+              path: `/article/${article.id}`,
+              query: {
+                type:
+                  $route.path === '/'
+                    ? 'frontendlist'
+                    : $route.path.replace('/', '') + 'list'
+              }
+            }"
+            >{{ article.title }}</router-link
+          >
+        </div>
+      </div>
+      <p v-if="loading">加载中...</p>
+      <p v-if="noMore">没有更多了</p>
     </div>
-  </div>
-  <div v-else>
-    <img src="../assets/timg.gif" alt="" />
+
+    <!-- <div class="pic" v-else>
+      <img src="../assets/timg.gif" alt="" />
+    </div> -->
+    <!-- <el-pagination
+      @current-change="changePage"
+      background
+      layout="pager"
+      :page-size="1"
+      :total="2"
+      :current-page="currentPage"
+    >
+    </el-pagination> -->
   </div>
 </template>
 
@@ -35,7 +56,9 @@ export default {
   name: "list",
   data() {
     return {
-      articleList: []
+      articleList: [],
+      // currentPage: 1
+      loading: false
     }
   },
   // watch 侦听器
@@ -48,26 +71,70 @@ export default {
     // /frontend ==> /frontendlist
     // window.console.log(path);
     this.getList(path)
+    // this.getList(path, 1)
   },
   watch: {
     "$route.path"(newValue) {
       // window.console.log(newValue, oldValue);
+      // this.currentPage = 1
+      // this.getList(newValue, 1)
       this.getList(newValue)
+    }
+  },
+  computed: {
+    noMore() {
+      return this.articleList.length >= 6
+    },
+    disabled() {
+      return this.loading || this.noMore
     }
   },
   methods: {
     getList(path) {
       this.articleList = []
+      //http://localhost:3008/frontendList?_page=1&_limit=2
+      // this.axios
+      //   .get(
+      //     `http://localhost:3008${
+      //       path === "/" ? "/frontendlist" : path + "list"
+      //     }?_page=${page}&_limit=1`
+      //   )
       this.axios
         .get(
           `http://localhost:3008${
             path === "/" ? "/frontendlist" : path + "list"
-          }`
+          }?_start=0&_end=3`
         )
         // 请求地址后面加上 ?_page=2&_limit=2
         .then(res => {
           // window.console.log(res)
           this.articleList = res.data
+        })
+    },
+    // changePage(num) {
+    //   window.console.log("1")
+    //   const { path } = this.$route
+    //   this.currentPage = num
+    //   this.getList(path, num)
+    // }
+    load() {
+      window.console.log("1111")
+      this.loading = true
+      const { path } = this.$route
+      this.axios
+        .get(
+          `http://localhost:3008${
+            path === "/" ? "/frontendlist" : path + "list"
+          }?_start=${this.articleList.length}&_end=${this.articleList.length +
+            2}`
+        )
+        // 请求地址后面加上 ?_page=2&_limit=2
+        .then(res => {
+          // window.console.log(res)
+          setTimeout(() => {
+            this.articleList = [...this.articleList, ...res.data]
+            this.loading = false
+          }, 2000)
         })
     }
   }
@@ -94,5 +161,19 @@ export default {
   margin-top: 3px;
   font-size: 20px;
   color: #2e3135;
+}
+.wrap {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.wrap > div {
+  height: 198.2px;
+}
+.wrap .list {
+  flex-grow: 1;
+}
+.wrap .pic {
+  flex-grow: 1;
 }
 </style>
